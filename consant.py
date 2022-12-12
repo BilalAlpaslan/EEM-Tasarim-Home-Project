@@ -1,0 +1,8 @@
+HOMEKEY='5v6278g956782c2806c58265'
+
+DB_NAME='db.sqlite3'
+DB_HOST='localhost'
+DB_PORT='3306'
+DB_USER='root'
+DB_PSWD='123456'
+DB_TABLE='test'
