@@ -19,3 +19,6 @@ class Logger():
 
     def pencere(self, username, durum):
         ...
+
+    def get_logs(self):
+        ...

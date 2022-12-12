@@ -25,3 +25,7 @@ def login(username: str):
 @app.get("/register/{username}")
 def register(username: str):
     ...
+
+@app.get("/getLog")
+def get_logs():
+    ...
