@@ -17,3 +17,11 @@ def pencere(durum: int):
 @app.get("/klima/{durum}")
 def klima(durum: int):
     ...
+
+@app.get("/login/{username}")
+def login(username: str):
+    ...
+    
+@app.get("/register/{username}")
+def register(username: str):
+    ...
