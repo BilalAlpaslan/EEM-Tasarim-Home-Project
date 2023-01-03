@@ -1,0 +1,16 @@
+# python gitignore file
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info
+*.egg
+*.egg-link
+*.egg-info
+/dist
+/build
+/eggs
+__pycache__
+/.tox
+/__pycache__
+/.cache
