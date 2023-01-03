@@ -1,32 +1,64 @@
 
+from typing import List
 from pydantic import BaseModel
+import time
+
+from db import HomeDB
+
+
+db = HomeDB()
 
 
 class Log(BaseModel):
     log_id: int = None
     username: str
+    text: str
+    logtype: str = None
     timestamp: str
 
 
 class Logger():
     @staticmethod
-    def login(self, username):
-        ...
+    def saveLog(username, text, logtype):
+        last_log = db.logs.find_one(sort=[("log_id", -1)])
+        last_log_id = last_log.log_id if last_log else 0
+        timestamp = time.time()
+        log = Log(log_id=last_log_id + 1, username=username,
+                  text=text, timestamp=timestamp, logtype=logtype)
+        db.logs.insert_one(log.dict())
+
     @staticmethod
-    def enterHome(self, username):
-        ...
+    def login(username):
+        Logger.saveLog(username, "Login", "login")
+        
     @staticmethod
-    def exitHome(self, username):
-        ...
+    def register(username):
+        Logger.saveLog(username, "Register", "register")
+
     @staticmethod
-    def klima(self, username, durum):
-        ...
+    def enterHome(username):
+        Logger.saveLog(username, "Enter Home", "kapi")
+
     @staticmethod
-    def isik(self, username, durum):
-        ...
+    def exitHome(username):
+        Logger.saveLog(username, "Exit Home", "kapi")
+
     @staticmethod
-    def pencere(self, username, durum):
-        ...
+    def klima(username, durum):
+        Logger.saveLog(username, "Klima " + str(durum), "klima")
+
     @staticmethod
-    def get_logs(self):
-        ...
+    def isik(username, durum):
+        Logger.saveLog(username, "Isik " + str(durum), "isik")
+
+    @staticmethod
+    def pencere(username, durum):
+        Logger.saveLog(username, "Pencere " + str(durum), "pencere")
+
+    @staticmethod
+    def get_logs(type='all') -> List[Log]:
+        if type != 'all':
+            logs = db.logs.find({"type": type})
+        else:
+            logs = db.logs.find({})
+        return [Log(**log) for log in logs]
