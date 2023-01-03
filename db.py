@@ -1,26 +1,20 @@
-import sqlite3
+from pymongo import MongoClient
+
+client = MongoClient(
+    "mongodb+srv://bilal:Bo20yhCrC4KeyVY4xkhUhVO2wqotQ7zA@cluster0.csmai.mongodb.net/?retryWrites=true&w=majority")
+db = client.eem
 
 
 class HomeDB():
+    instance = None
+
+    def __call__(cls, *args, **kwargs):
+        if cls.instance is None:
+            cls.instance = super(HomeDB, cls).__call__(*args, **kwargs)
+        return cls.instance
+
     def __init__(self):
-        self.conn = sqlite3.connect('db.sqlite3')
-        self.cursor = self.conn.cursor()
-
-    def __del__(self):
-        self.conn.close()
-
-    def execute(self, sql):
-        self.cursor.execute(sql)
-        self.conn.commit()
-
-    def fetchall(self, sql):
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
-
-    def fetchone(self, sql):
-        self.cursor.execute(sql)
-        return self.cursor.fetchone()
-
-    def create_table(self, table_name, fields):
-        sql = 'CREATE TABLE IF NOT EXISTS %s (%s)' % (table_name, fields)
-        self.execute(sql)
+        self.users = db["users"]
+        self.logs = db["logs"]
+        self.devices = db["devices"]
+        self.alarms = db["alarms"]
