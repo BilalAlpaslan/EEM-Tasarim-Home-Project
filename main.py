@@ -1,4 +1,5 @@
 from fastapi import Depends, FastAPI, Header
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import HTTPException
 
 from db import HomeDB
@@ -7,6 +8,16 @@ from kontrol import Kontrol
 from log import Logger
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 db = HomeDB()
 
 
