@@ -61,7 +61,7 @@ def check(user: str = Header(...)):
 
 
 @app.get("/register")
-def register(home_key: str, username: str, password: str):
+def register(home_key: str = Header(...), username: str = Header(...), password: str = Header(...)):
     if home_key != "1234":
         raise HTTPException(status_code=401, detail="Invalid credentials")
     user = Auth.register(username, password)
